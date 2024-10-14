@@ -70,26 +70,42 @@ public class AnalysisService {
 
     // Métodos auxiliares
     private boolean sequencesHorizontal(String[] dna, int row, int col) {
+        if (col + 3 >= dna[row].length()) {
+            return false;
+        }
         return dna[row].charAt(col) == dna[row].charAt(col + 1)
                 && dna[row].charAt(col + 1) == dna[row].charAt(col + 2)
                 && dna[row].charAt(col + 2) == dna[row].charAt(col + 3);
     }
 
+
     private boolean sequencesVertical(String[] dna, int row, int col) {
+        if (row + 3 >= dna.length) {
+            return false;
+        }
         return dna[row].charAt(col) == dna[row + 1].charAt(col)
                 && dna[row + 1].charAt(col) == dna[row + 2].charAt(col)
                 && dna[row + 2].charAt(col) == dna[row + 3].charAt(col);
     }
 
+
     private boolean sequencesDiagonalStraight(String[] dna, int row, int col) {
+        if (row + 3 >= dna.length || col + 3 >= dna[row].length()) {
+            return false;
+        }
         return dna[row].charAt(col) == dna[row + 1].charAt(col + 1)
                 && dna[row + 1].charAt(col + 1) == dna[row + 2].charAt(col + 2)
                 && dna[row + 2].charAt(col + 2) == dna[row + 3].charAt(col + 3);
     }
 
+
     private boolean sequencesReverseDiagonal(String[] dna, int row, int col) {
-        return col >= 3 && dna[row].charAt(col) == dna[row + 1].charAt(col - 1)
+        if (row + 3 >= dna.length || col < 3) {
+            return false;
+        }
+        return dna[row].charAt(col) == dna[row + 1].charAt(col - 1)
                 && dna[row + 1].charAt(col - 1) == dna[row + 2].charAt(col - 2)
                 && dna[row + 2].charAt(col - 2) == dna[row + 3].charAt(col - 3);
     }
+
 }
