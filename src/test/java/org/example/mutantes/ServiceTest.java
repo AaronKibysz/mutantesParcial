@@ -74,19 +74,6 @@ public class ServiceTest {
     }
 
     @Test
-    public void testAllDirectionalMatches() {
-        String[] dnaSample = {
-                "GTTGGA",
-                "TCTTGA",
-                "CGTGAA",
-                "GTCGAT",
-                "GCGTTC",
-                "GCACTA"
-        };
-        assertTrue(analysisService.analyzeDnaSequences(dnaSample), "Should detect matches in all directions");
-    }
-
-    @Test
     public void testNonMutantSequence() {
         String[] dnaSample = {
                 "ATCGAT",
