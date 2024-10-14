@@ -1,13 +1,11 @@
 package services;
 
-
 import entities.DnaEntity;
 import org.springframework.stereotype.Service;
 import repositories.DNAStorageRepository;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 @Service
 public class AnalysisService {
@@ -45,17 +43,20 @@ public class AnalysisService {
 
         for (int i = 0; i < dna.length; i++) {
             for (int j = 0; j < dna.length; j++) {
+                // Evitar el análisis en el bloque inferior derecho si ya no es necesario
                 if (i > dna.length - 4 && j > dna.length - 4) {
-                    break; // No es necesario analizar en el bloque inferior derecho
+                    break;
                 } else {
+                    // Verificar horizontal y diagonal derecha ↘
                     if (j <= dna.length - 4) {
                         if (sequencesHorizontal(dna, i, j) || sequencesDiagonalStraight(dna, i, j)) {
                             sequenceOccurrences++;
                             if (sequenceOccurrences == 2) {
-                                return true; // Si se encuentran dos secuencias, es un mutante
+                                return true; // Si se encuentran dos secuencias, es mutante
                             }
                         }
                     }
+                    // Verificar vertical y diagonal izquierda ↙
                     if (i <= dna.length - 4 && (sequencesVertical(dna, i, j) || sequencesReverseDiagonal(dna, i, j))) {
                         sequenceOccurrences++;
                         if (sequenceOccurrences == 2) {
@@ -73,39 +74,43 @@ public class AnalysisService {
         if (col + 3 >= dna[row].length()) {
             return false;
         }
-        return dna[row].charAt(col) == dna[row].charAt(col + 1)
+        boolean isSequence = dna[row].charAt(col) == dna[row].charAt(col + 1)
                 && dna[row].charAt(col + 1) == dna[row].charAt(col + 2)
                 && dna[row].charAt(col + 2) == dna[row].charAt(col + 3);
+        System.out.println("Horizontal sequence found: " + isSequence + " at row " + row + " col " + col);
+        return isSequence;
     }
-
 
     private boolean sequencesVertical(String[] dna, int row, int col) {
         if (row + 3 >= dna.length) {
             return false;
         }
-        return dna[row].charAt(col) == dna[row + 1].charAt(col)
+        boolean isSequence = dna[row].charAt(col) == dna[row + 1].charAt(col)
                 && dna[row + 1].charAt(col) == dna[row + 2].charAt(col)
                 && dna[row + 2].charAt(col) == dna[row + 3].charAt(col);
+        System.out.println("Vertical sequence found: " + isSequence + " at row " + row + " col " + col);
+        return isSequence;
     }
-
 
     private boolean sequencesDiagonalStraight(String[] dna, int row, int col) {
         if (row + 3 >= dna.length || col + 3 >= dna[row].length()) {
             return false;
         }
-        return dna[row].charAt(col) == dna[row + 1].charAt(col + 1)
+        boolean isSequence = dna[row].charAt(col) == dna[row + 1].charAt(col + 1)
                 && dna[row + 1].charAt(col + 1) == dna[row + 2].charAt(col + 2)
                 && dna[row + 2].charAt(col + 2) == dna[row + 3].charAt(col + 3);
+        System.out.println("Diagonal right sequence found: " + isSequence + " at row " + row + " col " + col);
+        return isSequence;
     }
-
 
     private boolean sequencesReverseDiagonal(String[] dna, int row, int col) {
         if (row + 3 >= dna.length || col < 3) {
             return false;
         }
-        return dna[row].charAt(col) == dna[row + 1].charAt(col - 1)
+        boolean isSequence = dna[row].charAt(col) == dna[row + 1].charAt(col - 1)
                 && dna[row + 1].charAt(col - 1) == dna[row + 2].charAt(col - 2)
                 && dna[row + 2].charAt(col - 2) == dna[row + 3].charAt(col - 3);
+        System.out.println("Diagonal left sequence found: " + isSequence + " at row " + row + " col " + col);
+        return isSequence;
     }
-
 }

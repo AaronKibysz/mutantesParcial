@@ -1,19 +1,15 @@
 package org.example.mutantes;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import services.AnalysisService;
-import services.AnalysisService.*;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ServiceTest {
     private final AnalysisService analysisService = new AnalysisService(null); // Simulamos el servicio sin necesidad de un repositorio real
 
-    // Verifica coincidencias en filas
     @Test
-    public void testHorizontalMatches(){
+    public void testHorizontalMatches() {
         String[] dnaSample = {
                 "AAAAGT",
                 "CCTTGC",
@@ -22,12 +18,11 @@ public class ServiceTest {
                 "TCAGCC",
                 "TGCCTA"
         };
-        assertTrue(analysisService.analyzeDnaSequences(dnaSample));
+        assertTrue(analysisService.analyzeDnaSequences(dnaSample), "Should detect horizontal match");
     }
 
-    // Verifica coincidencias en columnas
     @Test
-    public void testVerticalMatches(){
+    public void testVerticalMatches() {
         String[] dnaSample = {
                 "ACTGCA",
                 "CCTGCT",
@@ -36,26 +31,24 @@ public class ServiceTest {
                 "CGTGGC",
                 "TGCGGT"
         };
-        assertTrue(analysisService.analyzeDnaSequences(dnaSample));
+        assertTrue(analysisService.analyzeDnaSequences(dnaSample), "Should detect vertical match");
     }
 
-    // Verifica coincidencias en las diagonales principales ↘
     @Test
-    public void testDiagonalRightMatches(){
+    public void testDiagonalRightMatches() {
         String[] dnaSample = {
-                "TTAAGG",
-                "GTCCTC",
-                "TGTGTC",
-                "TCTGGT",
-                "GTGACC",
-                "TCTTGA"
-        };
-        assertTrue(analysisService.analyzeDnaSequences(dnaSample));
+                "ATGCGA",
+                "CAGTAC",
+                "TTGAGC",
+                "AGAAGG",
+                "CCCCTA",
+                "TCACTG"
+        }; // Diagonal de G's de arriba a la derecha
+        assertTrue(analysisService.analyzeDnaSequences(dnaSample), "Should detect diagonal right match");
     }
 
-    // Verifica coincidencias en las diagonales inversas ↙
     @Test
-    public void testDiagonalLeftMatches(){
+    public void testDiagonalLeftMatches() {
         String[] dnaSample = {
                 "AAGTGA",
                 "TGGTAA",
@@ -64,26 +57,24 @@ public class ServiceTest {
                 "GCTTGG",
                 "TGTTAC"
         };
-        assertTrue(analysisService.analyzeDnaSequences(dnaSample));
+        assertTrue(analysisService.analyzeDnaSequences(dnaSample), "Should detect diagonal left match");
     }
 
-    // Verifica coincidencias tanto en filas como en columnas
     @Test
-    public void testRowAndColumnMatches(){
+    public void testRowAndColumnMatches() {
         String[] dnaSample = {
-                "CGATGC",
-                "GGTGCT",
-                "TCTCCT",
-                "TCCGAT",
-                "GGTCGC",
-                "TCTGGT"
+                "AAAAAA", // Fila con secuencia de 'A'
+                "CCCCCC", // Columna con secuencia de 'C'
+                "ATCGAT",
+                "ATCGAT",
+                "ATCGAT",
+                "ATCGAT"
         };
-        assertTrue(analysisService.analyzeDnaSequences(dnaSample));
+        assertTrue(analysisService.analyzeDnaSequences(dnaSample), "Should detect row and column match");
     }
 
-    // Verifica coincidencias en todas las direcciones (filas, columnas, diagonales)
     @Test
-    public void testAllDirectionalMatches(){
+    public void testAllDirectionalMatches() {
         String[] dnaSample = {
                 "GTTGGA",
                 "TCTTGA",
@@ -92,12 +83,11 @@ public class ServiceTest {
                 "GCGTTC",
                 "GCACTA"
         };
-        assertTrue(analysisService.analyzeDnaSequences(dnaSample));
+        assertTrue(analysisService.analyzeDnaSequences(dnaSample), "Should detect matches in all directions");
     }
 
-    // Verifica una secuencia que no es mutante
     @Test
-    public void testNonMutantSequence(){
+    public void testNonMutantSequence() {
         String[] dnaSample = {
                 "ATCGAT",
                 "CTCTTG",
@@ -106,6 +96,6 @@ public class ServiceTest {
                 "ATCGAT",
                 "AAGTCC"
         };
-        assertFalse(analysisService.analyzeDnaSequences(dnaSample));
+        assertFalse(analysisService.analyzeDnaSequences(dnaSample), "Should not detect mutant sequences");
     }
 }
