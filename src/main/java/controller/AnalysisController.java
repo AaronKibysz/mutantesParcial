@@ -21,9 +21,9 @@ public class AnalysisController {
         DnaValidator.validateDnaStructure(dnaPayload);
         boolean mutantDetected = analysisService.isMutant(dnaPayload.getDnaStrands());
         if (mutantDetected) {
-            return ResponseEntity.ok().build(); // HTTP 200 OK
+            return ResponseEntity.ok().build(); // Respuesta: HTTP 200 OK
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // HTTP 403 Forbidden
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Respuesta: HTTP 403 Forbidden
         }
     }
 
