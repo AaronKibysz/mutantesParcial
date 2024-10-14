@@ -24,7 +24,7 @@ FROM openjdk:17-alpine
 EXPOSE 8080
 
 # Copia el JAR generado en la fase de build
-COPY --from=build ./build/libs/parcial_mutantes-0.0.1-SNAPSHOT.jar ./app.jar
+#COPY --from=build ./build/libs/parcial_mutantes-0.0.1-SNAPSHOT.jar ./app.jar
 
 # Comando de entrada para ejecutar el JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
